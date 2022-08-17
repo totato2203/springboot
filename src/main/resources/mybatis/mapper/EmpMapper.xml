@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.web.dao.EmpDao">
+
+	<select id="getEmpList" resultType="emp"
+							parameterType="emp">
+		SELECT * 
+		FROM emp01
+		where 1=1
+		<if test="ename != null">
+		and ename like '%'||#{ename}||'%'
+		</if>
+		<if test="job != null">
+		and job like '%'||#{job}||'%'
+		</if>
+		
+	</select>
+	<select id="getDetail" resultType="emp" parameterType="int" >
+		select *
+		from emp01
+		where empno = #{empno}
+	</select>
+	<update id="updateEmp" parameterType="emp">
+		update emp01
+			set ename=#{ename},
+				job=#{job},
+				mgr=#{mgr},
+				hiredate = to_date(#{hiredate_s},'YYYY-MM-DD'),
+				sal = #{sal},
+				comm = #{comm},
+				deptno = #{deptno}
+		   where empno = #{empno}		
+	</update>
+	<!-- <input type="date" name="hiredate_s"  value="2001-01-21"  -->
+	<delete id="deleteEmp" parameterType="int">
+		delete from emp01 where empno=#{empno}
+	</delete>	
+</mapper>
+	
