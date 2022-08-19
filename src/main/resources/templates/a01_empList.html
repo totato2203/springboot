@@ -1,5 +1,79 @@
+<!DOCTYPE html>
 <html>
-	<body>
-		<h2 align="center">Start spring boot</h2>
-	</body>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/a00_com/bootstrap.min.css" >
+<style>
+	td{text-align:center;}
+</style>
+<script src="/a00_com/jquery.min.js"></script>
+<script src="/a00_com/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var vm = new Vue({
+			el:".container",
+			data:{msg:"사원 정보 조회",sch:{ename:"",job:""},emplist:[]},
+			methods:{
+				search:function(){
+					vm = this;
+		            axios({
+		                method:"post",
+		                url: '/emplistData.do',
+		                params:vm.sch
+		            }).then((res)=>{
+		            	vm.emplist = res.data;		    
+		                console.log(vm.emplist);
+		            }).catch(error=>{
+		                console.log(error);
+		                throw new Error(error);
+		            });							
+				}
+			}
+		});	
+	});
+</script>
+</head>
+<body>
+
+<div class="container">
+	<div class="jumbotron text-center">
+	  <h2 >{{msg}}</h2>
+	</div>
+	<form id="frm01" class="form"  method="post">
+  	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	    <input @keyup.13="search" v-model="sch.ename" class="form-control mr-sm-2" placeholder="사원명" />
+	    <input @keyup.13="search"  v-model="sch.job" class="form-control mr-sm-2" placeholder="직책" />
+	    <button class="btn btn-info" type="button" @click="search">Search</button>
+ 	</nav>
+	</form>
+   <table class="table table-hover table-striped">
+   	<col width="20%">
+   	<col width="20%">
+   	<col width="20%">
+   	<col width="20%">
+   	<col width="20%">
+    <thead>
+    
+      <tr class="table-success text-center">
+        <th>사원번호</th>
+        <th>사원명</th>
+        <th>직책</th>
+        <th>급여</th>
+        <th>부서번호</th>
+      </tr>
+    </thead>	
+    <tbody>
+    	<tr v-for="emp in emplist">
+    		<td>{{emp.empno}}</td>
+    		<td>{{emp.ename}}</td>
+    		<td>{{emp.job}}</td>
+    		<td>{{emp.sal}}</td>
+    		<td>{{emp.deptno}}</td></tr>
+    </tbody>
+	</table>       
+</div>
+</body>
 </html>

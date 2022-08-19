@@ -3,7 +3,9 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.web.dao.EmpDao">
-
+<!--               com.example.web.dao.EmpDao.getEmpList
+com.example.web.dao.EmpDao.getEmpList
+ -->
 	<select id="getEmpList" resultType="emp"
 							parameterType="emp">
 		SELECT * 
